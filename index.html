@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MiControl PRO v2.0</title>
+  <meta name="theme-color" content="#111827" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="lock" class="lock">
+    <div class="brand-card">
+      <div class="logo">MC</div>
+      <h1>MiControl PRO</h1>
+      <p>Finanzas personales inteligentes</p>
+      <input id="pinInput" maxlength="6" inputmode="numeric" placeholder="PIN de acceso" />
+      <button id="unlockBtn">Entrar</button>
+      <small>PIN inicial: <b>1234</b>. Cámbialo en Configuración.</small>
+    </div>
+  </div>
+
+  <main id="app" class="app hidden">
+    <header class="topbar">
+      <div>
+        <p class="muted">Bienvenido</p>
+        <h2 id="ownerName">MiControl PRO</h2>
+      </div>
+      <div class="top-actions">
+        <button id="themeBtn" class="icon-btn">🌙</button>
+        <button id="lockBtn" class="icon-btn">🔒</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <p>Balance total</p>
+        <h1 id="balanceTotal">$0.00</h1>
+        <span id="healthText" class="badge">Salud financiera 0%</span>
+      </div>
+      <div class="ring"><span id="healthScore">0%</span></div>
+    </section>
+
+    <section class="grid cards-3">
+      <article class="card income"><span>Ingresos</span><strong id="totalIngresos">$0.00</strong></article>
+      <article class="card expense"><span>Gastos</span><strong id="totalGastos">$0.00</strong></article>
+      <article class="card saving"><span>Ahorro</span><strong id="totalAhorro">$0.00</strong></article>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="movimientos">Movimientos</button>
+      <button class="tab" data-tab="cuentas">Cuentas</button>
+      <button class="tab" data-tab="metas">Metas</button>
+      <button class="tab" data-tab="reportes">Reportes</button>
+      <button class="tab" data-tab="config">Config</button>
+    </nav>
+
+    <section id="movimientos" class="panel active">
+      <div class="panel-head"><h3>Ingresos y gastos</h3><button class="primary" id="addMovementBtn">+ Movimiento</button></div>
+      <div class="filters"><input id="searchMov" placeholder="Buscar descripción o categoría"><select id="filterType"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select></div>
+      <div id="movList" class="list"></div>
+    </section>
+
+    <section id="cuentas" class="panel">
+      <div class="panel-head"><h3>Cuentas</h3><button class="primary" id="addAccountBtn">+ Cuenta</button></div>
+      <div id="accountList" class="list"></div>
+    </section>
+
+    <section id="metas" class="panel">
+      <div class="panel-head"><h3>Metas de ahorro</h3><button class="primary" id="addGoalBtn">+ Meta</button></div>
+      <div id="goalList" class="list"></div>
+    </section>
+
+    <section id="reportes" class="panel">
+      <div class="panel-head"><h3>Reportes</h3></div>
+      <div class="grid cards-2">
+        <article class="card"><span>Mes actual</span><strong id="monthBalance">$0.00</strong></article>
+        <article class="card"><span>Categoría más alta</span><strong id="topCategory">-</strong></article>
+      </div>
+      <canvas id="chart" height="160"></canvas>
+      <div class="actions"><button id="exportCsv" class="secondary">Exportar Excel CSV</button><button id="exportPdf" class="secondary">Exportar PDF</button><button id="backupBtn" class="secondary">Respaldo JSON</button><label class="secondary file-label">Restaurar<input id="restoreInput" type="file" accept="application/json"></label></div>
+    </section>
+
+    <section id="config" class="panel">
+      <h3>Configuración</h3>
+      <div class="form-grid">
+        <label>Nombre del propietario<input id="cfgOwner" placeholder="Tu nombre"></label>
+        <label>Moneda<select id="cfgCurrency"><option value="$">$ Dólar</option><option value="Bs">Bs Bolívar</option><option value="€">€ Euro</option><option value="COP">COP</option></select></label>
+        <label>Nuevo PIN<input id="cfgPin" maxlength="6" inputmode="numeric" placeholder="Ej: 2468"></label>
+        <button id="saveConfig" class="primary">Guardar configuración</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="movementModal"><form method="dialog" class="modal"><h3>Nuevo movimiento</h3><select id="mType"><option value="income">Ingreso</option><option value="expense">Gasto</option></select><input id="mAmount" type="number" step="0.01" placeholder="Monto"><input id="mCategory" placeholder="Categoría"><input id="mDesc" placeholder="Descripción"><input id="mDate" type="date"><select id="mAccount"></select><button id="saveMovement" class="primary">Guardar</button><button class="secondary">Cancelar</button></form></dialog>
+  <dialog id="accountModal"><form method="dialog" class="modal"><h3>Nueva cuenta</h3><input id="aName" placeholder="Nombre: Efectivo, Banco..."><input id="aBalance" type="number" step="0.01" placeholder="Saldo inicial"><button id="saveAccount" class="primary">Guardar</button><button class="secondary">Cancelar</button></form></dialog>
+  <dialog id="goalModal"><form method="dialog" class="modal"><h3>Nueva meta</h3><input id="gName" placeholder="Nombre de la meta"><input id="gTarget" type="number" step="0.01" placeholder="Monto objetivo"><input id="gSaved" type="number" step="0.01" placeholder="Ahorro actual"><button id="saveGoal" class="primary">Guardar</button><button class="secondary">Cancelar</button></form></dialog>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
